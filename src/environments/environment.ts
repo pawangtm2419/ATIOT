@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-	apiUrl: 'http://103.149.113.100:8035',
+	//apiUrl: 'http://103.149.113.100:8035',
+  apiUrl: 'http://172.16.15.30:4000',
   companyID: 'AJAXFIORI',
   mapApiKey : 'AIzaSyAMDelQFr1mwJz0whw7L9Bu1BFQ3hvbxZg'
 };

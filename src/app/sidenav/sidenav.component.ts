@@ -8,19 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class SidenavComponent implements OnInit {
   userRecord: any;
   userType: any;
-  userRecord2: any;
 
   constructor() { } 
    
   ngOnInit(): void {
-       
-       this.getUserroleRecord()
+    this.getUserroleRecord()
   }   
-
   getUserroleRecord(){
-    this.userRecord2 =  JSON.parse(localStorage.getItem('user')).role.toString();
-    console.log(this.userRecord2);
-    
+    this.userRecord = JSON.parse(localStorage.getItem('user')); 
+    this.userType =  this.userRecord.role.toString();
   }
 }
     
