@@ -17,14 +17,14 @@
                         <img src="assets/img/Breifcase Icon.png" class="icon" title="Master">
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown" style="background-color: #454397; border: 0px; outline: 0px;">
-                        <li role="presentation" style="margin-top: 0px; margin-right: 100px;"><a class="menu" role="menuitem" routerLink="/masters/model">Model</a></li>
-                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" routerLink="/masters/variant">Variant</a></li>
-                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" routerLink="/masters/machine">Machine</a></li>
-                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" routerLink="/masters/device">Device</a></li>
+                        <li role="presentation" style="margin-top: 0px; margin-right: 100px;"><a class="menu" *ngIf="model" role="menuitem" routerLink="/masters/model">Model</a></li>
+                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" *ngIf="variant" tabindex="-1" routerLink="/masters/variant">Variant</a></li>
+                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" *ngIf="machine" tabindex="-1" routerLink="/masters/machine">Machine</a></li>
+                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" *ngIf="device" tabindex="-1" routerLink="/masters/device">Device</a></li>
                         <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" routerLink="/masters/customer">Customer</a></li>
-                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" routerLink="/masters/location">Location</a></li>
+                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" *ngIf="location" tabindex="-1" routerLink="/masters/location">Location</a></li>
                         <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" routerLink="/masters/geofencing">Geofence</a></li>
-                        <li class="icon_li" role="presentation"><a class="menu icon_li" rol++e="menuitem" tabindex="-1" routerLink="/masters/shipment">Shipment</a></li>
+                        <li class="icon_li" role="presentation"><a class="menu icon_li" rol++e="menuitem" *ngIf="shipmentlog" tabindex="-1" routerLink="/masters/shipment">Shipment</a></li>
                     </ul>
                 </div>
             </li>
@@ -40,8 +40,8 @@
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown2"
                         style="background-color: #454397; border: 0px; outline: 0px;">
-                        <li role="presentation" style="margin-top: 0px; margin-right: 100px;"><a class="menu" role="menuitem" routerLink="/service/schedule">Schedule</a></li>
-                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" routerLink="/service/update">Update</a></li>
+                        <li role="presentation" style="margin-top: 0px; margin-right: 100px;"><a class="menu" role="menuitem" *ngIf="schedules" routerLink="/service/schedule">Schedule</a></li>
+                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" *ngIf="serviceupdate" routerLink="/service/update">Update</a></li>
                     </ul>
                 </div>
             </li>
@@ -51,8 +51,8 @@
                         <img src="assets/img/Reports Icon.png" class='icon' title="Reports">
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown3" style="background-color: #454397; border: 0px; outline: 0px;">
-                        <li role="presentation" style="margin-top: 0px; margin-right: 100px;"><a class="menu" role="menuitem" routerLink="report">Vehicle</a></li>
-                        <li role="presentation"><a class="menu" role="menuitem" routerLink="testing/test">QA Testing</a></li>
+                        <li role="presentation" style="margin-top: 0px; margin-right: 100px;"><a class="menu" role="menuitem" *ngIf="report" routerLink="report">Vehicle</a></li>
+                        <li role="presentation"><a class="menu" role="menuitem" *ngIf="testing" routerLink="testing/test">QA Testing</a></li>
                     </ul>
                 </div>
             </li>
@@ -62,8 +62,8 @@
                         <img src="assets/img/Users.png" class="icon" title="User Management">
                     </a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="imageDropdown3" style="background-color: #454397; border: 0px; outline: 0px;">
-                        <li role="presentation" style="margin-top: 0px; margin-right: 105px;"><a class="menu" role="menuitem" routerLink="/user/userlist">Users</a></li>
-                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" routerLink="/user/dealer">Dealers</a></li>
+                        <li role="presentation" style="margin-top: 0px; margin-right: 105px;"><a class="menu" role="menuitem" *ngIf="users" routerLink="/user/userlist">Users</a></li>
+                        <li class="icon_li" role="presentation"><a class="menu icon_li" role="menuitem" tabindex="-1" *ngIf="dealer" routerLink="/user/dealer">Dealers</a></li>
                     </ul>
                 </div>
             </li>
