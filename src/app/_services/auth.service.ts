@@ -8,7 +8,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 export class AuthService {
     loginRecord: any;
-
     adminUrl = [
         { url: '/dashboard' },
         { url: '/masters/model' },
@@ -19,8 +18,7 @@ export class AuthService {
         { url: '/masters/variant' },
         { url: '/masters/customer' },
         { url: '/masters/location' },
-        { url: '/masters/geofencing' },
-        
+        { url: '/masters/geofencing' },        
         { url: '/track' },
         { url: 'details/:**' },
         { url: '/masters/shipment' },
@@ -50,9 +48,7 @@ export class AuthService {
         { url: '/masters/variant' },
         { url: '/masters/customer' },
         { url: '/masters/location' },
-        { url: '/masters/shipment' },
-
-
+        { url: '/masters/shipment' }
     ];
 
      zoneUrl = [
@@ -77,40 +73,26 @@ export class AuthService {
     getUrlDelear: any;
     constructor(private accountService: AccountService, private route: ActivatedRoute, private router: Router, ) { }
     authFunction(b) {
-        console.log(JSON.parse(localStorage.getItem('user')));
-        
-        console.log("bb ", b);
-
         if (JSON.parse(localStorage.getItem('user')).role == "ADMIN") {
             this.getUrl = this.adminUrl.find(x => x.url == b);
-            console.log(this.getUrl);
             if (this.getUrl.url == b) {
-                console.log("Okk Authorized")
             } else {
                 const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
                 this.router.navigateByUrl(returnUrl);
-                console.log("Not authoriszed");
             }
         }
         if(JSON.parse(localStorage.getItem('user')).role == "officero"){
             this.getUrl = this.delearUrl.find(x => x.url == b);
-            console.log(this.getUrl);
             if (this.getUrl.url == b) {
-                console.log("Okk Authorized")
             } else {
-                console.log("Not authoriszed");
                 const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
                 this.router.navigateByUrl(returnUrl);
             }
-
         }
         if(JSON.parse(localStorage.getItem('user')).useType == "ZONE"){
             this.getUrl = this.zoneUrl.find(x => x.url == b);
-            console.log(this.getUrl);
             if (this.getUrl.url == b) {
-                console.log("Okk Authorized")
             } else {
-                console.log("Not authoriszed");
                 const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
                 this.router.navigateByUrl(returnUrl);
             }

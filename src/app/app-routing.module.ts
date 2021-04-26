@@ -33,25 +33,21 @@ const routes: Routes = [
     { path: 'masters/model', loadChildren: modelModule, canActivate: [AuthGuard] },
     { path: 'masters/machine', loadChildren: machineModule, canActivate: [AuthGuard] },
     { path: 'masters/device', loadChildren: deviceModule, canActivate: [AuthGuard] },
-   
     { path: 'masters/variant', loadChildren: variantModule, canActivate: [AuthGuard] },
     { path: 'masters/customer', loadChildren: customerModule, canActivate: [AuthGuard] },
     { path: 'masters/location', loadChildren: locationModule, canActivate: [AuthGuard] },
     { path: 'track', component: TrackComponent, canActivate: [AuthGuard]},
     { path: 'newtrack', component: NewTrackVehicleComponent, canActivate: [AuthGuard]},
-    
     { path: 'details/:id', loadChildren: detailsModule, canActivate: [AuthGuard] },
     { path: 'summary', loadChildren: summaryModule, canActivate: [AuthGuard] },
     { path: 'service', loadChildren: serviceModule, canActivate: [AuthGuard] },
     { path: 'user', loadChildren: userModule, canActivate: [AuthGuard] },
     { path: 'masters/shipment', loadChildren: shipmentModule, canActivate: [AuthGuard] },
     { path : 'masters/geofencing',loadChildren : geofencingModule, canActivate: [AuthGuard]},
-
     { path: 'report', loadChildren: reportModule, canActivate: [AuthGuard] },
     { path: 'notifications', loadChildren: notificationModule, canActivate: [AuthGuard] },
     { path: 'testing', loadChildren: testingModule, canActivate: [AuthGuard] },
     // { path: 't', component: TrackComponent },
-    
     { path: '', loadChildren: accountModule },
 
     // otherwise redirect to home
