@@ -34,14 +34,11 @@ export class LoginComponent implements OnInit {
     mouseover(){
         document.getElementById('loginButton').style.backgroundColor = "#454397" ;
         document.getElementById('loginButton').style.padding = "7px 60px";
-
-
     }
     mouseout(){
         document.getElementById('loginButton').style.backgroundColor = "#3C84F0" ;
         document.getElementById('loginButton').style.padding = "4px 45px";
     }
-
 
     onSubmit() {
         this.submitted = true;
@@ -59,13 +56,10 @@ export class LoginComponent implements OnInit {
             loginName : this.f.loginName.value,
             password : this.f.password.value
         }
-        this.accountService.login(this.credentials)
-            .pipe(first())
-            .subscribe({
-                next: () => {
+        this.accountService.login(this.credentials).pipe(first()).subscribe({next: () => {
                     // get return url from query parameters or default to home page
                     // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
-                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
+                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'track';
                     // this.router.navigateByUrl(returnUrl);
                     window.location.href = returnUrl
                 },
