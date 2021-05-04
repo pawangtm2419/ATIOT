@@ -57,17 +57,13 @@ export class LoginComponent implements OnInit {
             password : this.f.password.value
         }
         this.accountService.login(this.credentials).pipe(first()).subscribe({next: () => {
-                    // get return url from query parameters or default to home page
-                    // const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
-                    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'track';
-                    // this.router.navigateByUrl(returnUrl);
-                    window.location.href = returnUrl
-                },
-                error: error => {
-					//console.log(error);
-                    this.alertService.error(error);
-                    this.loading = false;
-                }
-            });
+                const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'dashboard';
+                window.location.href = returnUrl
+            },
+            error: error => {
+                this.alertService.error(error);
+                this.loading = false;
+            }
+        });
     }
 }

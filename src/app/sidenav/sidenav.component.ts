@@ -76,10 +76,11 @@ export class SidenavComponent implements OnInit {
   }   
   getUserroleRecord(){
     this.userRecord = JSON.parse(localStorage.getItem('user')); 
+    console.log(this.userRecord);
     this.userType =  this.userRecord.role.toString();
     this.userMenu = this.userRecord.roleMenus;
     this.masters = this.userRecord.roleMenus.masters.link;
-    this.dashboard = this.userRecord.roleMenus.dashboard.link;
+    this.dashboard = this.userRecord.roleMenus.cdashboard.link;
     this.services = this.userRecord.roleMenus.services.link;
     this.reports = this.userRecord.roleMenus.reports.link;
     this.model = this.userRecord.roleMenus.model.link;
