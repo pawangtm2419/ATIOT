@@ -79,6 +79,7 @@ export class MachineComponent implements OnInit {
   devicetypeValue: string;
   status: any;
   qrData: any;
+  machineNo: String;
   // http: any;
   // fileformat: any;
   // fileContent: any;
@@ -627,9 +628,12 @@ deleteMachine(id: string) {
   } 
  */
 
-  qrCodeGen(model: String, mngDate: Date, engineNumber: string) {
+  qrCodeGen(pinNo: String, model: String, mngDate: Date, engineNumber: string) {
     this.qrCode = true;
-    this.qrData = model+', '+mngDate+', '+engineNumber;
+    var mngDate = new Date(mngDate);
+    var mgDate = mngDate.getDate()+'-'+(1+mngDate.getMonth())+'-'+mngDate.getFullYear();
+    this.qrData = model+', '+pinNo+', '+engineNumber+', '+mgDate;
+    this.machineNo = pinNo;
   }
 
 }

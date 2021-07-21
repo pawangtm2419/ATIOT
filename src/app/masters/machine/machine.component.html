@@ -54,6 +54,7 @@
             </div>
             <div class="modal-body section-to-print">
                 <qrcode [qrdata]="qrData" [width]="400" [errorCorrectionLevel]="'M'"></qrcode>
+                {{machineNo}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="window.print()">&#9113;</button>
@@ -355,7 +356,7 @@
                         </button>
                     </td>
                     <td style="white-space: nowrap">
-                        <button (click)="qrCodeGen(machine.deviceModel, machine.manufacturingDate, machine.engineNumber)" class="btn btn-sm btn-info" data-toggle="modal" data-target="#qrCode"><i class="fa fa-qrcode"></i></button>
+                        <button (click)="qrCodeGen(machine.pinno, machine.deviceModel, machine.manufacturingDate, machine.engineNumber)" class="btn btn-sm btn-info" data-toggle="modal" data-target="#qrCode"><i class="fa fa-qrcode"></i></button>
                     </td>
                 </tr>
             </tbody>
