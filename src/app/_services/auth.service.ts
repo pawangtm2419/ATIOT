@@ -29,6 +29,7 @@ export class AuthService {
         { url: '/masters/shipment' },
         { url: '/summary' },
         { url: '/service' },
+        { url: '/service/register-service-report' },
         { url: '/user' },
         { url: '/user/userlist' },
         { url: '/user/dealer' },
@@ -39,6 +40,7 @@ export class AuthService {
         { url: '/users' },
         { url: '/users/add' },
         { url: '/users/edit' },
+        
     ];
 
     serviceEngineerUrl = [

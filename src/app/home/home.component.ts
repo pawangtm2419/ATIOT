@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 import { stringify } from '@angular/compiler/src/util';
+import { environment } from '@environments/environment';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
   lastmonthcount: any;
   currentyearcount: any;
   vehicleparkCount: any;
+  pinNo=environment.labelpinno;
   dashboardVehicleCount: any;
   showPolygon: any;
   location: any;
@@ -287,7 +289,6 @@ export class HomeComponent implements OnInit {
     }
   }
   agree() {
-   
     this.credentials = {
       loginName: JSON.parse(localStorage.getItem('user')).loginName,
       agreementSignedOn: this.checkSignedon
@@ -302,8 +303,6 @@ export class HomeComponent implements OnInit {
           this.showModal = true;
         }
       });
-
-
   }
   logout() {
     this.accountService.logout();
@@ -529,7 +528,6 @@ this.showDealerDiv=false;
 
   getAllModel() {
     // /dashboard/vehiclemon
-    
     const data1 = {
       useType: JSON.parse(localStorage.getItem('user')).useType,
       loginName:JSON.parse(localStorage.getItem('user')).loginName
@@ -565,6 +563,9 @@ this.showDealerDiv=false;
         date: moment(this.allModel[i].lastDataReceivedAt).format('DD-MM-YYYY'),
         time: moment(this.allModel[i].lastDataReceivedAt),
         pinno: this.allModel[i].pinno,
+        engine_hours:this.allModel[i].totalEngineHours,
+        cust_code:this.allModel[i].customerCode,
+        mobile_no:this.allModel[i].customerMobile,
         type: allModelType,
       })
     }

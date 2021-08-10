@@ -171,6 +171,7 @@ debugger
     this.accountService.getTrack(this.timeBetween).subscribe((track) => {
       this.track = track
       this.trackdocs = this.track.docs
+      this.trackdocs = this.trackdocs.sort((b,a) => a.createdAt - b.createdAt)
      // this.trackdocs.lastDataReceivedAt = this.trackdocs.lastDataReceivedAt.slice(0, 2) + "/" + this.trackdocs.lastDataReceivedAt.slice(2,4) + "/" + this.trackdocs.lastDataReceivedAt.slice(4,6);
      this.trackdocs.forEach(element => {
        if(element.vehicleNumber=="")
@@ -232,7 +233,7 @@ debugger
       this.trackdocs = this.track.docs
       console.log(this.timeBetween)
       // console.log(this.trackdocs.createdAt);
-      this.trackdocs = _.sortBy(this.trackdocs, (o) => moment["default"](o.createdAt)).reverse();
+      this.trackdocs = this.trackdocs.sort((b,a) => a.createdAt - b.createdAt);
       console.log(this.trackdocs);
 
       if (this.trackdocs == undefined) {

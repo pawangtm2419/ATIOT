@@ -22,7 +22,7 @@
 
 
     <div class="row" style="margin-bottom: 10px;">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="input-group-icon input-group-icon-left mr-3">
                 <form class="form-inline" style="margin-top: 5px;">
                     <i class="fas fa-search" aria-hidden="true"></i>
@@ -37,8 +37,13 @@
                     style="margin-right: 10px;" checked>Formated Data</label>
             <label class="radio-inline"><input type="radio" name="optradio" style="margin-right: 10px;">Raw Data</label>
         </div> -->
-
-        <div class="col-md-6">
+        <div class="col-md-3">
+            <select class="form-control" id="select2" class="form-control" (change)="select2($event)">
+                <option selected value="Mapped Devices">Mapped Devices</option>
+                <option value="Unmapped Devices">Unmapped Devices</option>
+            </select>
+        </div>
+        <div class="col-md-5">
             <form class="form-inline" [formGroup]="form" (ngSubmit)="onSubmit()" style="float:right;">
 
                 <input type="date" class="form-control" [ngModel]="startDate | date:'yyyy-MM-dd'" max="{{startDate}}"
@@ -51,7 +56,8 @@
             </form>
             
         </div>
-        <div class="col-md-2">
+        
+        <div class="col-md-1">
             <button class="btn btn-success mr-1" title="Download Excel file" (click)="exportAsXLSX()" style="float: right;">
                 <i class="fas fa-file-excel fa-2x"></i>
             </button>
@@ -59,50 +65,9 @@
         </div>
 
     </div>
-    <div class="tableFixHead">
+    <div class="tableFixHead" *ngIf="selected2 == 'Mapped Devices'">
         <table class="table table-striped table-bordered table-hover" style="margin-top: 15px;">
-            <!-- <thead class="thead-dark">
-            <tr class="head">
-                <th >#</th>
-                <th >Date and Time </th>
-                <th >Latitude</th>
-                <th >Longitude</th>
-                <th >Power Src</th>
-                
-                <th >Ext. Battery</th>
-                <th >Int Battery </th>
-                <th>Fuel level</th>
-                <th>Coolent Temp</th>
-                <th>Oil Pressure </th>
-                <th>Ignition Status </th>
-                <th>RPM</th>
-                <th>Parking Switch</th>
-                <th>Hydraulic Oil Filter</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            
-            <tr  *ngFor="let deal of dealer  | filter:searchText | paginate : {itemsPerPage : 50, currentPage : p} let i = index ">
-                <td>{{i+1}}</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-              <td>XXXXXX</td>
-                
-              
-              
-            </tr>
-        </tbody>   -->
+          
             <thead class="thead-dark">
                 <tr class="head">
                     <th>#</th>
@@ -138,6 +103,37 @@
                     <td style="white-space: nowrap">
                         <button type="button" id="closeModel" class="btn btn-sm btn-primary mr-1" data-toggle="modal" data-target="#exampleModal"
                             style="padding: 1px 18px;" (click)="getReportQATestForBatchData(qa.deviceID, qa.deviceModel, 'batch')">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="tableFixHead" *ngIf="selected2 == 'Unmapped Devices'">
+        <table class="table table-striped table-bordered table-hover" style="margin-top: 15px;">
+          
+            <thead class="thead-dark">
+                <tr class="head">
+                    <th>#</th>
+                    <th>Device ID</th>
+                    <th>Machine Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr *ngFor="let mod of model"> -->
+                <tr
+                    *ngFor="let qa of QAUnmappedData  | filter:searchText | paginate : {itemsPerPage : 50, currentPage : p} let i = index" 
+                    (click)= "setClickedRow(i)" [class.active]="i == selectedRow">
+                    <td>{{i+1}}</td>
+                    <td> {{qa.deviceID}} </td>
+
+
+                    <td style="white-space: nowrap">
+                        <button type="button" id="closeModel" data-toggle="modal" data-target="#exampleModal6"
+                            class="btn btn-sm btn-primary mr-1" (click)="getReportQAUnmappedRawData(qa.deviceID)"
+                            style="padding: 1px 18px;">
                             <i class="fa fa-eye"></i>
                         </button>
                     </td>
@@ -220,9 +216,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let qadevice of dataQaTestDocs  | filter:searchText | paginate : {itemsPerPage : itemsperpage, currentPage : device} let i = index "
+                                    <tr *ngFor="let qadevice of dataQaTestDocs  | filter:searchText | paginate : {itemsPerPage : itemsperpage1, currentPage : device} let i = index "
                                         (click)="setClickedRow(i)" [class.active]="i == selectedRow">
-                                        <td>{{itemsperpage *(device-1)+i+1}}</td>
+                                        <td>{{itemsperpage1 *(device-1)+i+1}}</td>
                                         <td style="width: 15%;"> {{qadevice.devicePublishTime |
                                             slice:8:10}}-{{qadevice.devicePublishTime |
                                             slice:5:7}}-{{qadevice.devicePublishTime | slice:0:4}}
@@ -271,11 +267,11 @@
                                     </tr>
                                 </thead>
                                 <tbody *ngIf="actualRowData.length>0">
-                                    <tr *ngFor="let item of actualRowData | paginate : {itemsPerPage : itemsperpage, currentPage : device} let i = index"
+                                    <tr *ngFor="let item of actualRowData | paginate : {itemsPerPage : itemsperpage2, currentPage : device} let i = index"
                                         (click)="setClickedRow(i)" [class.active]="i == selectedRow">
-                                        <td>{{itemsperpage *(device-1)+i+1}}</td>
-                                        <td style="width: 15%;"> {{item.rowData[9] | slice : 6 : 8}}-{{item.rowData[9]
-                                            | slice : 4 : 6 }}-{{item.rowData[9] | slice : 0 : 4 }}<br>
+                                        <td>{{itemsperpage2 *(device-1)+i+1}}</td>
+                                        <td style="width: 15%;"> {{item.rowData[9] | slice : 0 : 2}}-{{item.rowData[9]
+                                            | slice : 2 : 4 }}-{{item.rowData[9] | slice : 4: 8 }}<br>
                                             {{item.rowData[10] | slice : 0 : 2 }}:{{item.rowData[10] | slice : 2 :4
                                             }}:{{item.rowData[10] | slice : 4 : 6 }}
                                         </td>
@@ -298,9 +294,9 @@
                                     </tr>
                                 </tbody>
                                 <tbody *ngIf="actualRowData1.length>0">
-                                    <tr *ngFor="let item of actualRowData1 | paginate : {itemsPerPage:itemsperpage, currentPage : device} let i = index"
+                                    <tr *ngFor="let item of actualRowData1 | paginate : {itemsPerPage:itemsperpage2, currentPage : device} let i = index"
                                         (click)="setClickedRow(i)" [class.active]="i == selectedRow">
-                                        <td>{{itemsperpage *(device-1)+i+1}}</td>
+                                        <td>{{itemsperpage2 *(device-1)+i+1}}</td>
                                         <td style="width: 15%;"> {{item.rowData[4] | slice : 6 : 8}}-{{item.rowData[4]
                                             | slice : 4 : 6 }}-{{item.rowData[4] | slice : 0 : 4 }}<br>
                                             {{item.rowData[4] | slice : 8 : 10 }}:{{item.rowData[4] | slice : 10 : 12
@@ -350,9 +346,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of batchDatadocs | paginate : {itemsPerPage : itemsperpage, currentPage : device1} let i = index"
+                                    <tr *ngFor="let item of batchDatadocs | paginate : {itemsPerPage : itemsperpage3, currentPage : device} let i = index"
                                         (click)="setClickedRow(i)" [class.active]="i == selectedRow">
-                                        <td>{{itemsperpage *(device1-1)+i+1}}</td>
+                                        <td>{{itemsperpage3 *(device-1)+i+1}}</td>
                                         <td>{{item.batchNo}}</td>
                                         <td>{{item.aggt10mm}}</td>
                                         <td>{{item.aggt20mm}}</td>
@@ -385,6 +381,116 @@
         </div>
     </div>
     </ng-container>
+
+
+    <ng-container>
+        <div class="modal fade" id="exampleModal6" tabindex="-1" aria-labelledby="exampleModalLabel6" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel6">{{msg1}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearData()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                     
+    
+                        <!-- when machine data is present and formatted data is selected -->
+                      
+                        
+                        <ng-container *ngIf="trRowUnmappedData">
+                            <div class="tableFixHead" style="margin-top: 10px;">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead class="thead-dark">
+                                        <tr class="head">
+                                            <th>#</th>
+                                            <th style="width: 15%;">Date and Time <br>
+                                                dd-mm-yyyy hh24:mi:ss </th>
+                                            <th>Latitude</th>
+                                            <th>Longitude</th>
+                                            <th>Power Src</th>
+                                            <th>Battery Level (volts) </th>
+                                            <th>Fuel level (volts)</th>
+                                            <th>Coolant Temp (volts) </th>
+                                            <th>Oil Pressure (volts)</th>
+                                            <th>Ignition Status (volts) </th>
+                                            <th>RPM</th>
+                                            <th>Parking Switch</th>
+                                            <th>Hydraulic Oil Filter</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="actualUnmappedRawData.length>0">
+                                        <tr *ngFor="let item of actualUnmappedRawData | paginate : {itemsPerPage : itemsperpage2, currentPage : device} let i = index"
+                                            (click)="setClickedRow(i)" [class.active]="i == selectedRow">
+                                            <td>{{itemsperpage2 *(device-1)+i+1}}</td>
+                                            <td style="width: 15%;"> {{item.rowData[9] | slice : 6 : 8}}-{{item.rowData[9]
+                                                | slice : 4 : 6 }}-{{item.rowData[9] | slice : 0 : 4 }}<br>
+                                                {{item.rowData[10] | slice : 0 : 2 }}:{{item.rowData[10] | slice : 2 :4
+                                                }}:{{item.rowData[10] | slice : 4 : 6 }}
+                                            </td>
+                                            <td> {{item.rowData[11]}} </td>
+                                            <td> {{item.rowData[13]}}</td>
+                                            <td></td>
+                                            <td>{{item.rowData[24]}}</td>
+                                            <td>{{item.rowData[48]}}</td>
+                                            <td>{{item.rowData[49]}}</td>
+                                            <td>{{item.rowData[50]}}</td>
+                                            <td>{{item.rowData[22]}}</td>
+                                            <td>{{item.rowData[54] | slice : 0 : 1 }}</td>
+                                            <td>{{item.rowData[45] | slice : 1 : 1 }}</td>
+                                            <td>{{item.rowData[45] | slice : 0 : 1}}</td>
+                                        </tr>
+                                        <tr *ngIf="loading">
+                                            <td colspan="14" class="text-center">
+                                                <span class="spinner-border spinner-border-lg align-center"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="actualUnmappedRawData1.length>0">
+                                        <tr *ngFor="let item of actualUnmappedRawData1 | paginate : {itemsPerPage:itemsperpage2, currentPage : device} let i = index"
+                                            (click)="setClickedRow(i)" [class.active]="i == selectedRow">
+                                            <td>{{itemsperpage3 *(device-1)+i+1}}</td>
+                                            <td style="width: 15%;"> {{item.rowData[4] | slice : 6 : 8}}-{{item.rowData[4]
+                                                | slice : 4 : 6 }}-{{item.rowData[4] | slice : 0 : 4 }}<br>
+                                                {{item.rowData[4] | slice : 8 : 10 }}:{{item.rowData[4] | slice : 10 : 12
+                                                }}:{{item.rowData[4] | slice : 12 : 14 }}
+                                            </td>
+                                            <td>{{item.rowData[7]}}</td>
+                                            <td>{{item.rowData[9]}}</td>
+                                            <td>{{item.rowData[13]}}</td>
+                                            <td>{{item.rowData[14]}}</td>
+                                            <td>{{item.rowData[17]}}</td>
+                                            <td>{{item.rowData[18]}}</td>
+                                            <td>{{item.rowData[19]}}</td>
+                                            <td>{{item.rowData[25]}}</td>
+                                            <td>{{item.rowData[26]}}</td>
+                                            <td>{{item.rowData[27]}}</td>
+                                            <td>{{item.rowData[28]}}</td>
+                                        </tr>
+                                        <tr *ngIf="loading">
+                                            <td colspan="14" class="text-center">
+                                                <span class="spinner-border spinner-border-lg align-center"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                   
+                                </table>
+                            </div>
+                          
+                        </ng-container>
+                       
+                      
+                    </div>
+    
+                    <div class="modal-footer">
+                        <pagination-controls (pageChange)="device = $event"></pagination-controls>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        </ng-container>
 
 
 

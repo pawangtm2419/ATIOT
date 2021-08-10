@@ -25,6 +25,9 @@ import { BatchComponent } from './report/batch/batch.component';
 import { AlertanalyticsComponent } from './report/alertanalytics/alertanalytics.component';
 import { BatteryComponent } from './report/battery/battery.component';
 import { FuelanalyticsComponent } from './report/fuelanalytics/fuelanalytics.component';
+import { UpdateEngHourComponent } from './trackVehicles/update-eng-hour/update-eng-hour.component';
+import { RegisterServiceComponent } from './service/register-service/register-service.component';
+import { RolesComponent } from './masters/roles/roles.component';
 
 // import { TrackComponent } from './track/track/track.component';
 
@@ -45,7 +48,7 @@ const shipmentModule = () => import('./masters/shipment/shipment.module').then(x
 const reportModule = () => import('./report/report.module').then(x => x.ReportModule);
 const notificationModule = () => import('./notifications/notifications.module').then(x => x.NotificationsModule);
 const testingModule = () => import('./testing/testing.module').then(x => x.TestingModule);
-
+const rolesModule = () => import('./masters/roles/roles.module').then(x=>x.RolesModule);
 const newtrackVehicle = () => import('./newTrackVehicle/new-track-vehicle.module').then(x => x.NewTrackVehicleModule);
 
 
@@ -71,6 +74,7 @@ const routes: Routes = [
     { path: 'masters/customer', loadChildren: customerModule, canActivate: [AuthGuard] },
     { path: 'masters/location', loadChildren: locationModule, canActivate: [AuthGuard] },
     { path: 'masters/services', component: ServiceScheduleComponent, canActivate: [AuthGuard] },
+    {path:'masters/roles',component: RolesComponent, canActivate: [AuthGuard] },
 
     { path: 'track', component: TrackComponent, canActivate: [AuthGuard]},
     { path: 'newtrack', component: NewTrackVehicleComponent, canActivate: [AuthGuard]},
@@ -83,6 +87,8 @@ const routes: Routes = [
     { path: 'analytics/alert', component: AlertanalyticsComponent, canActivate: [AuthGuard] },
     { path: 'analytics/battery', component: BatteryComponent, canActivate: [AuthGuard] },
     { path: 'analytics/fuel', component: FuelanalyticsComponent, canActivate: [AuthGuard] },
+    { path: 'update-EngHour', component: UpdateEngHourComponent, canActivate: [AuthGuard] },
+    { path: 'service/register-service-report', component: RegisterServiceComponent, canActivate: [AuthGuard] },
 
 
     { path: 'report/userLogs_report', component: UserlogsComponent, canActivate: [AuthGuard] },

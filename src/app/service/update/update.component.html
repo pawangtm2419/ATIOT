@@ -369,9 +369,11 @@
                 <th>Model</th>
                 <th>Machine Number</th>
                 <th>Scheduled Service</th>
-                <th>Schedule Run Time</th>
+                <th>Schedule Run Hours</th>
+                <th>Cumm Engg. Run Hours</th>
+                <th>Scheduled date</th>
+                <th>Scheduled Since(days)</th>
                 <th style="width: 15%;">Action</th>
-
             </tr>
         </thead>
         <tbody>
@@ -392,9 +394,26 @@
                     <ul *ngFor="let m of mod.upcomingServices">
                         <li>
                             {{ m.serviceDueAfterSeconds / 3600 }} hrs
-
                         </li>
                     </ul>
+                </td>
+                <td>
+                    {{ mod.totalEngineHours }}
+                </td>
+                <td>
+                    <ul *ngFor="let s of mod.services">
+                        <li>
+                            {{ s.scheduledCompletionDate }}
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul *ngFor="let s of mod.services">
+                        <li>
+                            {{ s.scheduledSince }}
+                        </li>
+                    </ul>
+                    
                 </td>
                 <td style="white-space: nowrap">
                     <ul *ngFor="let m of mod.services;let t = index">

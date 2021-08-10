@@ -24,16 +24,33 @@
 </div>
 
 
+<div class="modal fade" id="qrCode" tabindex="-1" aria-labelledby="example1lLabel" aria-hidden="true" [style.display]='showModal1? "block":"none"'>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="example1Label">QR Code</h5>
+                <button type="button"  id="closeBtn2" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body section-to-print">
+                <qrcode [qrdata]="qrData" [width]="300" [errorCorrectionLevel]="'M'"></qrcode>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IOT Device No : &nbsp; <b>{{deviceID}} </b> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="window.print()">&#9113;</button>
+                <button type="button" id="closeBtn2" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+<div class="modal fade preview-modal" data-backdrop="static" id="exampleModal7" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
     [style.display]='showModal? "block":"none"'>
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"> NEW DEVICE</h5>
-                <button type="button" #closeButton class="close" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title" id="exampleModalLabel">NEW DEVICE</h5>
+                <button type="button" #closeButton id='closeBtn' class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -47,10 +64,11 @@
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-12">
                             <label><span class="required-asterisk">*</span>IOT Device No</label><br>
-                            <input type="text" formControlName="deviceID" class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && f.deviceID.errors }" />
-                            <div *ngIf="submitted && f.deviceID.errors" class="invalid-feedback">
-                                <div *ngIf="f.deviceID.errors.required">Device No is required</div>
+                            <input type="text" formControlName="deviceID" [pattern]="noSpacePattern" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.deviceID?.errors }" />
+                            <div *ngIf="submitted && f.deviceID?.errors" class="invalid-feedback">
+                                <div *ngIf="f.deviceID?.errors.required">Device No is required</div>
+                                <div *ngIf="f.deviceID?.errors.pattern">Enter valid device number</div>
                             </div>
                         </div>
                     </div>
@@ -58,10 +76,11 @@
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-12">
                             <label><span class="required-asterisk">*</span>Sim No</label><br>
-                            <input type="text" formControlName="devicesim" class="form-control"
-                                [ngClass]="{ 'is-invalid': submitted && f.devicesim.errors }" />
-                            <div *ngIf="submitted && f.devicesim.errors" class="invalid-feedback">
-                                <div *ngIf="f.devicesim.errors.required">Sim No is required</div>
+                            <input type="text" formControlName="devicesim" [pattern]="noSpacePattern" class="form-control"
+                                [ngClass]="{ 'is-invalid': submitted && f.devicesim?.errors }" />
+                            <div *ngIf="submitted && f.devicesim?.errors" class="invalid-feedback">
+                                <div *ngIf="f.devicesim?.errors.required">Sim No is required</div>
+                                <div *ngIf="f.devicesim?.errors.pattern">Enter valid sim number</div>
                             </div>
                         </div>
 
@@ -175,7 +194,7 @@
             </div>
             <div class="col-md-3">
                 <button type="button" (click)="addDevice()" class="btn btn-primary" data-toggle="modal"
-                    data-target="#exampleModal" style="padding: 2px 10px; float: right;">
+                    data-target="#exampleModal7" style="padding: 2px 10px; float: right;">
                     <i class="fa fa-plus" aria-hidden="true" style="width: 30px; -webkit-text-stroke: 0.05px white;">
                     </i>
                     NEW DEVICE
@@ -190,6 +209,7 @@
         <thead class="thead-dark">
             <tr class="head">
                 <th style="width: 5%;">#</th>
+                <th style="width: 5%;">QR Code</th>
                 <th style="width: 10%">IOT Device Number</th>
                 <th style="width: 10%"> Sim No.</th>
                 <th style="width: 10%">Recpt. Date Plant</th>
@@ -207,17 +227,25 @@
             <tr *ngFor="let device of devices | filter:searchText | paginate : {itemsPerPage :itemsperpage, currentPage : p} let i = index"
                 (click)="setClickedRow(i)" [class.active]="i == selectedRow">
                 <td>{{itemsperpage *(p-1)+i+1}}</td>
+                <td style="white-space: nowrap">
+                    <button (click)="qrCodeGen(device.deviceID, device.devicereceiptDate,device.category)" class="btn btn-sm btn-info" data-toggle="modal" data-target="#qrCode"><i class="fa fa-qrcode"></i></button>
+                </td>
                 <td>{{device.deviceID}}</td>
                 <td>{{device.devicesim}}</td>
                 <td>{{device.devicereceiptDate | date:'dd-MM-yyyy'}}</td>
-                <td>{{device.deviceinstallationDate | date:'dd-MM-yyyy'}}</td>
-                <td>{{device.deviceactivationqcDate | date:'dd-MM-yyyy'}}</td>
+                <td>
+                {{device.deviceinstallationDate == "Invalid Date" || device.deviceinstallationDate == "" ? ("date not available")
+                        : (device.deviceinstallationDate | date:'dd-MM-yyyy')}}</td>
+                <td>
+                    {{device.deviceactivationqcDate == "Invalid Date" || device.deviceactivationqcDate == "" ? ("date not available")
+                        : (device.deviceactivationqcDate | date:'dd-MM-yyyy')}}
+                </td>
                 <td>{{device.category}}</td>
                 <td>{{device.createdDate | date:'dd-MM-yyyy'}}</td>
                 <td>{{device.status}}</td>
                 <td style="white-space: nowrap" [hidden]="showButton">
                     <button type="button" (click)="update($event,i,device.id)" id="closeModel" [hidden]="showedit"
-                        class="btn btn-sm btn-primary mr-1" data-toggle="modal" data-target="#exampleModal">
+                        class="btn btn-sm btn-primary mr-1" data-toggle="modal" data-target="#exampleModal7">
                         <i class="far fa-edit"></i>
 
                     </button>

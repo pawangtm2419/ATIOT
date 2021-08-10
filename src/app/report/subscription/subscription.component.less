@@ -1,56 +1,51 @@
-.modal-lg{
-    width: 40%;
+// header fix start
+tbody {
+  display:block;
+  height:300px;
+  overflow:auto;
 }
-.modal-header{
-    background-color: #283882;
-    color: white;
-  }
-  .close{
-    color: white;
-  }
-  .overlay{
-    height:100vh;
-    width:100%;
-    background-color:rgba(0, 0, 0, 0.286);
-    z-index:    10;
-    top:        0; 
-    left:       0; 
-    position:   fixed;
-  }
+thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;/* even columns width , fix width of table too*/
+}
+thead {
+  width: calc( 100% - 1em )/* scrollbar is average 1em/16px width, remove it from thead width */
+}
+// header fix end
 
-  .spinner-border{position: fixed;
-    z-index: 999;
-    height: 2em;
-    width: 2em;
-    overflow:show;
-    margin: auto;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-  }
-  .tableFixHead {
-    overflow-y: auto;
-    height: 400px;
-  }
-  .tableFixHead thead th {
-    position: sticky;
-    top: 0;
-  }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    font-size: small;
-  }
-  th,
-  td {
-    padding: 8px 16px;
-    border: 1px solid #ccc;
-  }
-  .head th{
-    vertical-align: top;
-  }
-  .table tr.active td {
-    background-color:#454397 !important;
-    color: white;
-  }
+.modal-header {
+  background-color: #454397;
+}
+
+.modal-title {
+  color: #fff;
+}
+
+table {
+  border-collapse: collapse;
+  width: 140%;
+  font-size: small;
+}
+
+th,
+td {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+}
+
+.head th{
+  vertical-align: top;
+}
+
+.table tr.active td {
+  background-color:#454397 !important;
+  color: white;
+}
+
+.tableFixHead {
+  overflow-x: auto;
+}
+.tableFixHead thead th {
+  top: 0;
+}

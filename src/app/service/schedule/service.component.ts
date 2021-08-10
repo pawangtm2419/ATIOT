@@ -39,12 +39,18 @@ export class ServiceComponent implements OnInit {
   customerMob:any;
   engineNo:any;
   type:any;
+  customerLat:any;
+  customerLong:any;
+  dealerCode:any;
+  customerScheduleDate:any;
+  customerRemarks:any;
   registerService: any;
   returnData: any;
   snum: any;
   enhr: any;
   sendData: Object;
   sendNotification:any;
+  today: any;
 
   constructor(private accountService: AccountService,
     private formBuilder: FormBuilder,
@@ -103,8 +109,10 @@ export class ServiceComponent implements OnInit {
        customerMob1: [''],
        engineNo1: [''],
        type1: [''],
- 
- 
+       customerLat1: [''],
+       customerLong1: [''],
+       dealerCode1: [''],
+       customerRemarks1: [''],
  
      });
    }
@@ -121,7 +129,8 @@ export class ServiceComponent implements OnInit {
     }
     this.RegisterService();
   }
-  register(pinno, enhr, snum, deviceModel, deviceId, companyId, customerMob, engineNo, type) {
+  
+  register(pinno, enhr, snum, deviceModel, deviceId, companyId, customerMob, engineNo, type, customerLat, customerLong, dealerCode, customerScheduleDate, customerRemarks) {
     //  alert(pinno);
     this.snum = snum
     this.enhr = enhr
@@ -134,7 +143,16 @@ export class ServiceComponent implements OnInit {
     this.customerMob = customerMob
     this.engineNo = engineNo
     this.type = type
+    this.customerLat = customerLat
+    this.customerLong = customerLong
+    this.dealerCode = dealerCode
+    this.customerScheduleDate = this.datePipe.transform(customerScheduleDate, 'yyyy-MM-dd')
+    this.customerRemarks = customerRemarks
+     
+    console.log("data==", this.customerLat ,this.customerLong,this.dealerCode,this.customerScheduleDate,this.customerRemarks)
+
   }
+
   getServices(){
     const data1 = {
       useType: JSON.parse(localStorage.getItem('user')).useType,
@@ -143,7 +161,10 @@ export class ServiceComponent implements OnInit {
     this.accountService.getUpcomingServices(data1).subscribe(result => {
       this.model = result
       this.model=this.model.docs;
-      console.log("models==",this.model)
+      console.log("models==",this.model);
+
+      this.today = this.datePipe.transform(this.date, 'yyyy-MM-dd') + "T00:00:00.000Z";
+      console.log("Today date==", this.today)
     });
   }
 
@@ -157,7 +178,7 @@ export class ServiceComponent implements OnInit {
       serviceType:"free",
       status:"open"
      }
-    console.log(this.registerService);
+    console.log("Register Data ====", this.registerService);
 
     // return
     
@@ -185,7 +206,7 @@ export class ServiceComponent implements OnInit {
 
         console.log("sendNotification Data ===", this.sendNotification);
 
-        this.accountService.getServiceNotification(this.sendNotification)
+        this.accountService.createNotification(this.sendNotification)
         .subscribe(data => {
           this.sendData = data
           console.log("Service Message Response ==",this.sendData);

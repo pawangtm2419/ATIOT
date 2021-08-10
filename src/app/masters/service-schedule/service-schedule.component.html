@@ -196,18 +196,18 @@
         <table class="table table-striped table-bordered table-hover" style="margin-top: 10px;">
             <thead class="thead-dark">
                 <tr>
-                    <th rowspan="2" style="width: 2%;">#</th>
+                    <th rowspan="2" style="width: 3%;">#</th>
                     <th rowspan="2" style="width: 8%;">Model</th>
-                    <th rowspan="2" style="width: 10%;">Variant Code</th>
-                    <th rowspan="2" style="width: 10%;">Service Number</th>
-                    <th rowspan="2" style="width: 10%;">Type of Service</th>
-                    <th colspan="2" style="width: 20%;">Service Schedule on Completion of</th>
-                    <th colspan="2" style="width: 5%;">Base</th>
-                    <th colspan="2" style="width: 5%;">Interval</th>
-                    <th rowspan="2" style="width: 20%;">Message</th>
-                    <th rowspan="2" style="width: 10%;">Overdue Alert limit</th>
+                    <th rowspan="2" style="width: 8%;">Variant Code</th>
+                    <th rowspan="2" style="width: 7%;">Service Number</th>
+                    <th rowspan="2" style="width: 7%;">Type of Service</th>
+                    <th colspan="2" style="text-align: center;">Service Schedule on Completion of</th>
+                    <th colspan="2" style="text-align: center;">Base</th>
+                    <th colspan="2" style="text-align: center;">Interval</th>
+                    <th rowspan="2" >Message</th>
+                    <th rowspan="2">Overdue Alert limit</th>
                 </tr>
-                <tr class="fixed-header">
+                <tr>
                     <th>Engine Hours</th>
                     <th>No. of Days*</th>
                     <th>in Engine Hours</th>
@@ -222,11 +222,11 @@
                 <!-- <tr *ngFor="let machine of master ; let id = index"> -->
                 <tr
                     *ngFor="let service of services  | filter:searchText | paginate : {itemsPerPage : 50, currentPage : p} let i = index ">
-                    <td>{{i+1}}</td>
-                    <td>{{service.deviceModel}}</td>
-                    <td>{{service.deviceVariant}}</td>
-                    <td>{{service.serviceNumber}}</td>
-                    <td>{{service.serviceType}}</td>
+                    <td style="width: 3%;">{{i+1}}</td>
+                    <td style="width: 8%;">{{service.deviceModel}}</td>
+                    <td style="width: 8%;">{{service.deviceVariant}}</td>
+                    <td style="width: 7%;">{{service.serviceNumber}}</td>
+                    <td style="width: 7%;">{{service.serviceType}}</td>
                     <td>{{(service.serviceDueAfterSeconds)*(1/3600)}}</td>
                     <td>{{service.serviceDueAfterDays}}</td>
                     <td>{{(service.serviceCreateAfterSeconds)*(1/3600)}}</td>

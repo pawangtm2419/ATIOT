@@ -846,12 +846,12 @@
                 <div class="col-md-3 col-xs-4 offset-md-1" style="padding: 5px 0px 0px 15px;">
                     <div style="padding: 10px 0px 10px 0px;">
                         <span class="legend-color" style="background-color: #6A69AC;"></span>
-                        <small class="legend-title">Telematics</small>
+                        <small class="legend-title"><a routerLink="/track">Telematics</a></small>
                         <p class="chart-count">{{IOTCount}}</p>
                     </div>
                     <div style="padding: 10px 0px 10px 0px;">
                         <span class="legend-color" style="background-color: #E83E8C;"></span>
-                        <small class="legend-title">Non Telematics</small>
+                        <small class="legend-title"><a routerLink="/report/non-iot-machines-report">Non Telematics</a></small>
                         <p class="chart-count">{{NonIOTCount}}</p>
                     </div>
                     <div style="padding: 10px 0px 10px 0px;">
@@ -1014,7 +1014,7 @@
                         <div class="col-md-9 col-xs-9" style="padding: 0;">
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                                    [style.width]="pastSevenDaysCountPre" style="background-color: red;">
+                                    [style.width]="pastSevenDaysCountPre" style="background-color: orange;">
                                 </div>
                             </div>
                         </div>
@@ -1029,7 +1029,7 @@
                         <div class="col-md-9 col-xs-9" style="padding: 0;">
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                                    [style.width]="pastThirtyDaysCountPre" style=" background-color: green;">
+                                    [style.width]="pastThirtyDaysCountPre" style=" background-color: red;">
                                 </div>
                             </div>
                         </div>
@@ -1181,7 +1181,15 @@
                                 <br>
                                 <strong>Time : {{coordinate.time|date:'h:mm:ss a':'+0000'}}</strong>
                                 <br>
-                                <Strong>Pinno. : {{coordinate.pinno}}</Strong>
+                                <Strong> {{pinNo}} : {{coordinate.pinno}}</Strong>                                
+                                <br>
+                                <Strong>Engine Hours : {{coordinate.engine_hours}}</Strong>
+                                <br>
+                                <Strong>Customer  : {{coordinate.cust_code}}</Strong>
+                                <br>
+                                <Strong>Customer Mobile : {{coordinate.mobile_no}}</Strong>
+                                <br><br>
+                                <Strong>Type : {{coordinate.type}}</Strong>
                                 <br>
                                 <Strong>Lat : {{coordinate.lat}}</Strong>
                                 <br>

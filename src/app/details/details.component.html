@@ -256,23 +256,27 @@
             <thead class="thead-dark">
                 <tr>
                     <th>#</th>
-                    <th style="padding: 10px 35px;">Date & Time</th>
+                    <th style="padding: 5px 35px;">Date & Time</th>
                     <th style="width: 9%">Fuel Level</th>
+		    <th style="width: 9%">Fuel (L)</th>
+		<th style="width: 9%">Coolant &#8451;</th>
+		<th style="width: 9%" [hidden]="showOnColumns">Oil Pressure (Bar)</th>
                     <th style="width: 9%">Engine</th>
   		    <th style="width: 10%;" [hidden]="showOnCANData">Engine Hours</th>
-                    <th style="width: 9%">RPM</th>
-                    <th style="width: 9%">Coolant &#8451;</th>
+                    <th style="width: 5%">RPM</th>
+                    
                     <th style="width: 9%">Battery Level (volt)</th>
-                    <th style="width: 9%">Travel Speed (Km/h)</th>
+                    
                     <th style="width: 9%" [hidden]="showOnColumns">Parking Switch</th>
                     <th style="width: 9%" [hidden]="showOnColumns">Hydraulic Oil Filter Choke</th>
-                    <th style="width: 9%" [hidden]="showOnColumns">Oil Pressure (Bar)</th>
-                    <th style="width: 9%">Fuel (L)</th>
+                    <th style="width: 9%">Travel Speed (Km/h)</th>
+                    
                     <th style="width: 9%">Distance (kms)</th>
 
                                         
                     <th style="width: 10%;" [hidden]="showOnCANData">WaterIn Fuel Level</th>
-                    <th style="width: 10%;" [hidden]="showOnCANData">Cold Start Lamp</th>
+                    <th style="width: 13%;" [hidden]="showOnCANData">Cold Start Lamp</th>
+		    <th style="width: 13%;" [hidden]="showOnCANData">MI Lamp</th>
                     <th style="width: 10%;" [hidden]="showOnCANData">System Lamp</th>
                     <!-- <th style="width: 10%;" [hidden]="showOnCANData">Oil Pressure (Bar)</th> 
                     <th style="width: 10%;" [hidden]="showOnCANData">Coolant &#8451;</th> 
@@ -297,29 +301,32 @@
                     <td
                         [ngClass]="{'warning': item1.extras[0].fuelLevel == this.alertValues[0].fuelLevelw1, 'critical': item1.extras[0].fuelLevel == this.alertValues[0].fuelLevelc}">
                         {{item1.extras[0].fuelLevel}}</td>
-                    <td>{{item1.engineStatus}}</td>
-			<td [hidden]="showOnCANData">{{ item1.extras[0]["engineHours"] }}</td>
-                    <td> {{item1.extras[0].rpm | number : '1.0-0'}} </td>
-                    <td
-                        [ngClass]="{'critical': item1.extras[0].coolantTemp >=this.alertValues[0].coolantTempc, 'warning': item1.extras[0].coolantTemp >= this.alertValues[0].coolantTempw1 && item1.extras[0].coolantTemp <= this.alertValues[0].coolantTempw2 }">
+			<td>{{item1.extras[0].fuelInLitres}}</td>
+			<td [ngClass]="{'critical': item1.extras[0].coolantTemp >=this.alertValues[0].coolantTempc, 'warning': item1.extras[0].coolantTemp >= this.alertValues[0].coolantTempw1 && item1.extras[0].coolantTemp <= this.alertValues[0].coolantTempw2 }">
                         {{item1.extras[0].coolantTemp}}</td>
+		<td [hidden]="showOnColumns"
+                        [ngClass]="{'critical':item1.extras[0].oilpressure == this.alertValues[0].oilpressurec}">
+                        {{item1.extras[0].oilpressure | number :'1.2-2'}}</td>
+                    <td>{{item1.engineStatus}}</td>
+			<td [hidden]="showOnCANData">{{ item1.extras[0]["engineHours"] | number :'1.2-2' }}</td>
+                    <td> {{item1.extras[0].rpm | number : '1.0-0'}} </td>
+                    
                     <td
                         [ngClass]="{'warning': item1.extras[0].batteryLevel <= this.alertValues[0].batteryLevelw1 && item1.extras[0].batteryLevel >= this.alertValues[0].batteryLevelc, 'critical': item1.extras[0].batteryLevel <= this.alertValues[0].batteryLevelc}">
-                        {{item1.extras[0].batteryLevel}}</td>
-                    <td> {{item1.extras[0].travelSpeed}} </td>
+                        {{item1.extras[0].batteryLevel | number :'1.2-2'}}</td>
+                  
                     <td [hidden]="showOnColumns">{{item1.extras[0].parkingSwitch}}</td>
                     <td [hidden]="showOnColumns"
                         [ngClass]="{'critical':item1.extras[0].hydralicOilFilterChoke == this.alertValues[0].hydralicOilFilterChokec}">
                         {{item1.extras[0].hydralicOilFilterChoke}}</td>
-                    <td [hidden]="showOnColumns"
-                        [ngClass]="{'critical':item1.extras[0].oilpressure == this.alertValues[0].oilpressurec}">
-                        {{item1.extras[0].oilpressure}}</td>
-                    <td>{{item1.extras[0].fuelInLitres}}</td>
+                    
+                      <td> {{item1.extras[0].travelSpeed}} </td>
                     <td>{{item1.extras[0].distance | number: '1.2-5'}}</td>
 
                        
                     <td [hidden]="showOnCANData">{{ item1.extras[0]["waterinFuelLevel"] }}</td>
                     <td [hidden]="showOnCANData">{{ item1.extras[0]["coldStartLamp"] }}</td>
+		    <td [hidden]="showOnCANData">{{ item1.extras[0]["MalfunctionIndLamp"] }}</td>
                     <td [hidden]="showOnCANData">{{ item1.extras[0]["systemLamp"] }}</td>
                     <!-- <td [hidden]="showOnCANData">{{ item1.extras[0]["engineOilPressure"] }}</td>
                     <td [hidden]="showOnCANData">{{ item1.extras[0]["engineCoolantTemperature"] }}</td> 
@@ -360,7 +367,6 @@
                     <th style="width: 9%" [hidden]="showOffColumns">Hydraulic Oil Filter Choke</th>
                     <th style="width: 9%" [hidden]="showOffColumns">Oil Pressure (Bar)</th>
 
-                     
                     <th style="width: 10%;" [hidden]="showOffCANData">Water in Fuel Level</th>
                     <th style="width: 10%;" [hidden]="showOffCANData">Cold Start Lamp</th>
                     <th style="width: 10%;" [hidden]="showOffCANData">System Lamp</th>
@@ -373,7 +379,7 @@
                     <th style="width: 10%;" [hidden]="showOffCANData">Engine Hours</th>
                     <th style="width: 10%;" [hidden]="showOffCANData">Liquid Fuel Economy</th>
                     <th style="width: 10%;" [hidden]="showOffCANData">Diesel Exhaust fluid1</th>
-                    <th style="width: 10%;" [hidden]="showOffCANData">Diesel Exhaust fluid2</th>
+                    <th style="width: 10%;" [hidden]="showOffCANData">Diesel Exhaust fluid2</th>   
 
                 </tr>
             </thead>
@@ -399,7 +405,7 @@
                     <td [hidden]="showOffColumns">--</td>
 
                     
-                    <td [hidden]="showOffCANData">{{ item1.extras[0]["waterinFuelLevel"] }}</td>
+                   <!--  <td [hidden]="showOffCANData">{{ item1.extras[0]["waterinFuelLevel"] }}</td>
                     <td [hidden]="showOffCANData">{{ item1.extras[0]["coldStartLamp"] }}</td>
                     <td [hidden]="showOffCANData">{{ item1.extras[0]["systemLamp"] }}</td>
                     <td [hidden]="showOffCANData">{{ item1.extras[0]["engineOilPressure"] }}</td>
@@ -411,7 +417,7 @@
                     <td [hidden]="showOffCANData">{{ item1.extras[0]["engineHours"] }}</td>
                     <td [hidden]="showOffCANData">{{ item1.extras[0]["liquidFuelEconomy"] }}</td>
                     <td [hidden]="showOffCANData">{{ item1.extras[0]["dieselExhaustfluid1"] }}</td>
-                    <td [hidden]="showOffCANData">{{ item1.extras[0]["dieselExhaustfluid2"] }}</td>
+                    <td [hidden]="showOffCANData">{{ item1.extras[0]["dieselExhaustfluid2"] }}</td>   -->
 
                 </tr>
                 <tr *ngIf="loading">

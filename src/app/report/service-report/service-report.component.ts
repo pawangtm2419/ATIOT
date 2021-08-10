@@ -53,6 +53,7 @@ export class ServiceReportComponent implements OnInit {
   returnData: any;
   serviceDataCategory: any;
   status: any;
+  strRemarks: any;
 
   constructor(
     private accountService: AccountService,
@@ -102,7 +103,8 @@ this.createUserLOgs();
           this.alertService.error(error);
         })
     }
-  getRecord() {
+
+    getRecord() {
     // this.useType = JSON.parse(localStorage.getItem('user')).useType;
     // this.loginName = JSON.parse(localStorage.getItem('user')).loginName;
     // this.loginName = this.loginName.toUpperCase( );
@@ -186,6 +188,9 @@ this.createUserLOgs();
         this.serviceData = data;
         this.serviceDataCategory = this.serviceData.items;
 
+        this.strRemarks= this.serviceData.remarks;
+        console.log("Str remarks==", this.strRemarks) 
+
         console.log("service data Category", this.serviceDataCategory);
         console.log("check for service data ", this.serviceData);
 
@@ -196,6 +201,7 @@ this.createUserLOgs();
 
 
   onSubmit() {
+    debugger
     this.submitted = true;
     if (this.form1.invalid) {
       return;
@@ -204,6 +210,7 @@ this.createUserLOgs();
       this.records = {
         pinno: this.form1.value.pinno,
         serviceNumber: this.form1.value.serviceNumber,
+        cost: this.form1.value.cost,
         items: this.release,
         status: this.form1.value.status,
         // remarks: this.form1.value.remarks + ' by ' + JSON.parse(localStorage.getItem('user')).loginName + ' ' + this.datePipe.transform(new Date(), 'dd-MM-yyyy')  + ' ' + this.datePipe.transform(new Date(), 'hh:mm:ss a') + ' <br> ',
@@ -219,7 +226,8 @@ this.createUserLOgs();
           this.returnData = data
           const buttonModal = document.getElementById("clickClose")
           buttonModal.click();
-          window.location.reload();
+          this.getRecord();
+          // window.location.reload();
 
           if (this.returnData) {
             this.alertService.success("Service record updated successfully");

@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { Ng2SearchPipeModule} from 'ng2-search-filter';
 import {NgxPaginationModule} from 'ngx-pagination';
 
-import { QRCodeModule } from 'angularx-qrcode';
+
 import { DeviceRoutingModule } from './device-routing.module';
 import { LayoutComponent } from './layout.component';
 import { ListComponent } from './list.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ListComponent } from './list.component';
         FormsModule,
         Ng2SearchPipeModule,
         NgxPaginationModule,
-        QRCodeModule
+        QRCodeModule,
+
     ],
     declarations: [
         LayoutComponent,

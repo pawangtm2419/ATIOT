@@ -34,10 +34,14 @@
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-4">
                             <label><span class="required-asterisk">*</span>Customer</label><br>
-                            <select formControlName="customerID" class="form-control"
+                            <select formControlName="customerID" class="form-control" #selectedList (change)="selectedCustomer(selectedList.value)"
                                 [ngClass]="{ 'is-invalid': submitted && f1.customerID.errors }">
                                 <option></option>
-                                <option *ngFor="let customer of customers">{{customer.firstName}} {{customer.lastName}} {{customer.loginName}}</option>
+                                <option *ngFor="let customer of customers" [value]="customer | json">
+                                    <span>
+                                    {{customer.firstName}} {{customer.lastName}} {{customer.loginName}}
+                                </span>
+                                </option>
                             </select>
                             <div *ngIf="submitted && f1.customerID.errors" class="invalid-feedback">
                                 <div *ngIf="f1.customerID.errors.required">Customer is required</div>
@@ -155,7 +159,7 @@
                 <td>
                 <a style="margin-right: 10px;" *ngIf="delear?.stage=='3.Dealer Assigned'"><i class="fa fa-map-marker fa-lg" data-toggle="modal"
                         data-target="#example1"
-                        (click)="mapCheck(delear.dealerCode,delear.pinno,delear.id)"></i>
+                        (click)="mapCheck(delear)"></i>
                 </a> 
                 </td>
             </tr>

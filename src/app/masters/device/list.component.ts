@@ -8,8 +8,9 @@ import { Device } from '@app/_models';
 import { AuthService } from '@app/_services/auth.service';
 import { DatePipe } from '@angular/common';
 import { ExcelService, ExcelServiceXlsx } from '@app/_services/excel.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import * as XLSX from 'xlsx';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-device',
@@ -17,8 +18,9 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./list.component.less']
 })
 export class ListComponent implements OnInit {
-  @ViewChild('exampleModal', { static: true }) exampleModalRef: ElementRef;
+  @ViewChild('exampleModal7', { static: true }) exampleModalRef: ElementRef;
   @ViewChild('closeButton') closeButton;
+  @ViewChild('qrCode', { static: true }) exampleModalRef1: ElementRef;
   @ViewChild('fileInput')
   myInputVariable: ElementRef;
   filesToUpload: Array<File> = [];
@@ -26,6 +28,7 @@ export class ListComponent implements OnInit {
   p: number = 1;
   searchText;
   file: File;
+  qrCode=false;
   arrayBuffer: any;
   form: FormGroup;
   submitted = false;
@@ -38,6 +41,7 @@ export class ListComponent implements OnInit {
   id: string;
   isEditMode: boolean;
   showModal: boolean;
+  showModal1: boolean;
   isChecked;
   inActive = false;
   active = false;
@@ -52,6 +56,10 @@ export class ListComponent implements OnInit {
   sheetNameCount: number;
   itemsperpage=50;
   status: any;
+  qrData: string;
+  deviceID: String;
+  noSpacePattern="^(?=.*[0-9])(?=.*[0-9])([0-9]+)$";
+  
   constructor(private accountService: AccountService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -91,14 +99,19 @@ export class ListComponent implements OnInit {
 
     // add device
     this.form = this.formBuilder.group({
-      deviceID: ['', Validators.required],
-      devicesim: ['', Validators.required],
+      deviceID: ['',[Validators.required,Validators.pattern(this.noSpacePattern)]],
+      devicesim: ['',[Validators.required,Validators.pattern(this.noSpacePattern)]],
       category: ['', Validators.required],
       deviceinstallationDate: ['', Validators.required],
       devicereceiptDate: ['', Validators.required],
       deviceactivationqcDate: ['', Validators.required],
+      createdDate:[''],
+      createdBy:[''],
+      updatedBy:[''],
+      updatedAt:['']
     });
   }
+
   createUserLOgs(){
     let params={
         "loginName":JSON.parse(localStorage.getItem('user')).loginName,
@@ -190,20 +203,20 @@ debugger;
     
 
 debugger
-    const formData: any = new FormData();
+    const formData = new FormData;
     const files: Array<File> = this.filesToUpload;
     console.log(files);
     this.currentFile = files[0];
  
-    formData.append("File", files[0]);
-    formData.append("datatype", 'items');
+    formData.append("file",files[0]);
+    formData.append("dataType",'items');
   
-    console.log(files[0]);
+    console.log(formData);
   
     if (this.currentFile && this.sheetNameCount == 2 && this.sheet_name == "devicemaster") {
       //this.readFile();
-
-      this.http.post('http://103.149.113.100:8035/masters/data/upload/devicemaster', formData).subscribe(
+    
+      this.accountService.uploadDeviceData(formData).subscribe(
         files => {
           console.log('files', files);
           this.alertService.success('File uploaded successfully', { keepAfterRouteChange: true });
@@ -280,16 +293,22 @@ debugger
   }
 
   createDevice() {
-
-   
+   debugger
+    var createdDate=new Date();
+    this.form.value.createdDate=this.datePipe.transform(createdDate,'dd-MM-yyyy h:mm:ss');
+    this.form.controls['createdBy'].setValue(JSON.parse(localStorage.getItem('user')).loginName);
     this.accountService.newDevice(this.form.value)
       .pipe(first())
       .subscribe({
         next: () => {
           this.alertService.success('Device added successfully', { keepAfterRouteChange: true });
           // this.router.navigate(['../'], { relativeTo: this.route });
-          this.closeButton.nativeElement.click();
           this.getDeviceData();
+          const btn = document.getElementById('closeBtn');
+          btn.click();
+          document.getElementById("closeBtn2").click();
+         
+      //    $('#myModal').modal('hide')
           console.log(this.form.value)
         },
         error: error => {
@@ -336,14 +355,17 @@ debugger
 
 
   updateDevice(id) {
-
+    var updatedDate=new Date();
+    this.form.value.updatedAt=this.datePipe.transform(updatedDate,'dd-MM-yyyy h:mm:ss');
+    this.form.controls['updatedBy'].setValue(JSON.parse(localStorage.getItem('user')).loginName);
     this.accountService.updateDevice(id, this.form.value)
 
       .subscribe(res => {
 
         this.alertService.success('Update successful', { keepAfterRouteChange: true });
         // this.router.navigate(['../../'], { relativeTo: this.route });
-        this.closeButton.nativeElement.click();
+        const btn = document.getElementById('closeBtn');
+        btn.click();
         this.getDeviceData();
       },
         error => {
@@ -354,6 +376,15 @@ debugger
       );
 
     //this.closeButton.nativeElement.click();
+  }
+  qrCodeGen(deviceID: String, devicereceiptDate: Date, category: string) {
+    this.showModal1=true;
+    this.qrCode = true;
+    var mngDate = new Date(devicereceiptDate);
+    var mgDate = mngDate.getDate()+'-'+(1+mngDate.getMonth())+'-'+mngDate.getFullYear();
+    // var mgDate = mngDate.getDate()+'-'+mngDate.getMonth()+'-'+mngDate.getFullYear();
+    this.qrData = deviceID+', '+mgDate+', '+category;
+    this.deviceID = deviceID;
   }
 
 

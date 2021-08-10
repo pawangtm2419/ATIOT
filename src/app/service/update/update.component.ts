@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
-
+import { DatePipe } from '@angular/common';
 import { AccountService, AlertService } from '@app/_services';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -60,11 +60,13 @@ export class UpdateComponent implements OnInit {
   serviceData: any;
   sendData: Object;
   sendNotification: { machineno: any; title: string; pinno: any; message: string; deviceID: any; mobileno: any; companyID: any; deviceModel: any; type: any; status: number; };
+  today: string;
 
   constructor(private accountService: AccountService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private alertService: AlertService,
+    private datePipe: DatePipe,
     private auth: AuthService) {
     this.auth.authFunction(window.location.pathname);
   }
@@ -243,7 +245,7 @@ export class UpdateComponent implements OnInit {
     
             console.log("sendNotification Data ===", this.sendNotification);
     
-            this.accountService.getServiceNotification(this.sendNotification)
+            this.accountService.createNotification(this.sendNotification)
             .subscribe(data => {
               this.sendData = data
               console.log("Service Message Response ==",this.sendData);
@@ -273,6 +275,17 @@ export class UpdateComponent implements OnInit {
     });
     console.log("Local Storage ", JSON.parse(localStorage.getItem('user')).loginName)
   }
+
+  // calculateDiff(sentOn){
+   
+  //       let todayDate = new Date();
+  //       let sentOnDate = new Date(sentOn);
+  //       sentOnDate.setDate(sentOnDate.getDate());
+  //       let differenceInTime = todayDate.getTime() - sentOnDate.getTime();
+  //       // To calculate the no. of days between two dates
+  //       let differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24)); 
+  //       return differenceInDays;
+  // }
 
 }
 

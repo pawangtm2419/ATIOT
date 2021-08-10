@@ -79,11 +79,11 @@
             <button [disabled]='loading' id='loginButton' class="btn btn-primary login-btn" (mouseover)="mouseover()" (mouseout)="mouseout()">
               <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
               LOGIN</button>
-
           </div>
 
           <div style="text-align: center;">
-            <span class="forgot-password"> <a>Forgot Password ? </a></span>
+            <span class="forgot-password"> <a data-toggle="modal"
+              data-target="#exampleModal4" (click)="clear()">Forgot Password?</a></span>
           </div>
 
         </div>
@@ -93,3 +93,139 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    [style.display]='showModal? "block":"none"'>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Forgot Password</h5>
+                <button type="button" #closeButton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form [formGroup]="form1" (ngSubmit)="onFormSubmit()">
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-6">
+                            <label> <span class="required-asterisk">*</span>Email ID</label>
+
+                        </div>
+                        <div class="col-md-6">
+
+                            <input type="text" placeholder="Enter your registered email id" [pattern]="emailRegEx" formControlName="emailID" class="form-control"
+                                [ngClass]="{ 'is-invalid': emailsubmitted && f1.emailID.errors }"
+                                />
+                            <div *ngIf="emailsubmitted && f1.emailID.errors" class="invalid-feedback">
+                                <div *ngIf="f1.emailID.errors.required">Email ID is required</div>
+                                <div *ngIf="f1.emailID.errors.pattern">
+                                  Please enter a valid email.
+                              </div>
+                              </div>
+
+                        </div>
+                    </div>
+                   
+              
+
+                 
+                    <div class="form-group" style="text-align: center; margin-top:10px ;">
+
+                        <button type="submit" class="btn btn-primary" id="closeModel">
+                           Send link for reset password
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- <div #openModal id="exampleModal3" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true"
+    [style.display]='showModal1? "block":"none"'>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
+                <button type="button" #closeButton class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form [formGroup]="resetPasswordForm" (ngSubmit)="onresetFormSubmit()">
+                  <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-6">
+                        <label> <span class="required-asterisk">*</span>New Password</label>
+
+                    </div>
+                    <div class="col-md-6">
+                        <input type="password" placeholder="New Password" formControlName="newPassword"
+                            class="form-control" [pattern]="checkPasswordPattern" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && f3.newPassword.errors  }" />
+                        <div *ngIf="resetFormsubmitted && f3.newPassword.errors" class="invalid-feedback">
+                            <div *ngIf="f3.newPassword.errors.required">Password is required</div>
+                            <div *ngIf="f3.newPassword.errors.pattern">
+                                <ul>
+                                    <li>
+                                        Password must be of 8 characters
+                                    </li>
+                                    <li>
+                                        Password must have one lower case and upper case letter
+                                    </li>
+                                    <li>
+                                        Password must have one number
+                                    </li>
+                                    <li>
+                                        Password must have one special character
+                                    </li>
+                                </ul>
+                            </div> 
+                         
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 10px;">
+                    <div class="col-md-6">
+                        <label> <span class="required-asterisk">*</span> Confirm Password </label>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <input type="password" autocomplete="off" formControlName="cnPassword" class="form-control"
+                            [ngClass]="{ 'is-invalid': resetFormsubmitted && f.cnPassword.errors }" />
+                        <div *ngIf="resetFormsubmitted && f3.cnPassword.errors" class="invalid-feedback">
+                            <div *ngIf="f3.cnPassword.errors.required">Password is required</div>
+                            <div *ngIf="f3.cnPassword.errors.mustMatch">Passwords must match</div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group" style="text-align: center; margin-top:10px ;">
+
+                    <button type="submit" class="btn btn-primary" id="closeModel">
+                        Reset Password
+                    </button>
+
+                </div>
+                </form>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div> -->

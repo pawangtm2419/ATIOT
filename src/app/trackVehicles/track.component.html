@@ -264,6 +264,7 @@
           <!-- <th style="vertical-align: top;"><i class="far fa-list-alt fa-2x"></i></th> -->
           <th style="vertical-align: top;">Actions</th>
           <th style="vertical-align: top;">Device ID</th>
+          <th style="vertical-align: top;">Type</th>
         </tr>
       </thead>
       <tbody>
@@ -349,13 +350,17 @@
         <!-- <td> <a title="Summary" (click)="onSummary(t.pinno)"><i class="far fa-list-alt fa-2x"></i></a> </td> -->
         <td *ngIf="(t.deviceID | slice:0:4) == '3529'">AT_{{t.deviceID}}</td>
         <td *ngIf="(t.deviceID | slice:0:4) != '3529'">{{t.deviceID}}</td>
+        <td *ngIf="t.type == 'dvmap'">Advanced</td>
+        <td *ngIf="t.type == 'dvmapb'">Basic</td>
+        <td *ngIf="t.type == 'bs4'">Bs4</td>
+      
         </tr>
         <tr *ngIf="!track">
           <td colspan="4" class="text-center">
             <span class="spinner-border spinner-border-lg align-center"></span>
           </td>
         </tr>
-<tr><td colspan="13">*If customer has not provided the vehicle number while creating the machine then vehicle number is taking as same as pin number</td></tr>
+<!-- <tr><td colspan="13">*If customer has not provided the vehicle number while creating the machine then vehicle number is taking as same as pin number</td></tr> -->
 
       </tbody>
     </table>

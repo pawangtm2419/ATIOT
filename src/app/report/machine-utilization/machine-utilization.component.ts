@@ -57,9 +57,11 @@ this.accountService.createUserlogs(params).subscribe((data) => {
   getRecord() {
     this.today = new Date();
     this.today.setDate(this.today.getDate() -15);
-    this.fromDate = this.datePipe.transform(this.today, 'yyyy-MM-dd') + "T00:00:00.000Z";
+    // this.fromDate = this.datePipe.transform(this.today, 'yyyy-MM-dd') + "T00:00:00.000Z";
+    this.fromDate = this.datePipe.transform(this.today, 'yyyy-MM-dd');
    // this.toDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd') + "T" + this.datePipe.transform(new Date(), 'HH:mm:ss') + ".000Z";
-   this.toDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd')  + "T00:00:00.000Z";
+  //  this.toDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd')  + "T00:00:00.000Z";
+   this.toDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
    this.startDate = this.fromDate.toString(),
     this.endDate = this.toDate.toString(),
     this.useType = JSON.parse(localStorage.getItem('user')).useType;
@@ -96,8 +98,8 @@ this.accountService.createUserlogs(params).subscribe((data) => {
     this.loginName = this.loginName.toUpperCase( );
 
     this.timeBetween = {
-      fromDate: this.form.value.startDate + "T00:00:00.000Z",
-      toDate: this.form.value.endDate + "T" + this.datePipe.transform(new Date(), 'HH:mm:ss') + ".000Z",
+      fromDate: this.form.value.startDate,
+      toDate: this.form.value.endDate,
       loginName:this.loginName,
       useType:this.useType,
     }

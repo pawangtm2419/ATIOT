@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // used to create fake backend
 import { fakeBackendProvider } from './_helpers';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { AppRoutingModule } from './app-routing.module';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
@@ -18,7 +18,7 @@ import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { FooterComponent } from './footer/footer.component'
 import{CustDashboardComponent}from './home/cust-dashboard/cust-dashboard.component';
-import { QRCodeModule } from 'angularx-qrcode';
+
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -48,6 +48,11 @@ import { BatchComponent } from './report/batch/batch.component';
 import { AlertanalyticsComponent } from './report/alertanalytics/alertanalytics.component';
 import { BatteryComponent } from './report/battery/battery.component';
 import { FuelanalyticsComponent } from './report/fuelanalytics/fuelanalytics.component'
+import { UpdateEngHourComponent } from './trackVehicles/update-eng-hour/update-eng-hour.component';
+import { RegisterServiceComponent } from './service/register-service/register-service.component'
+import { QRCodeModule } from 'angularx-qrcode';
+import { MaintenancePageComponent } from './maintenance-page/maintenance-page.component'
+
 
 
 @NgModule({
@@ -59,6 +64,7 @@ import { FuelanalyticsComponent } from './report/fuelanalytics/fuelanalytics.com
         BrowserAnimationsModule,
         FormsModule,
         QRCodeModule,
+        ModalModule.forRoot(), 
         NgxChartsModule,
         Ng2SearchPipeModule,
         NgxPaginationModule,
@@ -96,7 +102,10 @@ import { FuelanalyticsComponent } from './report/fuelanalytics/fuelanalytics.com
         BatchComponent,
         AlertanalyticsComponent,
         BatteryComponent,
-        FuelanalyticsComponent 
+        FuelanalyticsComponent ,
+        UpdateEngHourComponent,
+        RegisterServiceComponent,
+        MaintenancePageComponent
         ],
     
     providers: [HomeComponent,

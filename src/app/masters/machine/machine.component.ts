@@ -37,7 +37,6 @@ export class MachineComponent implements OnInit {
   variant = null;
   form: FormGroup;
   showMapping=false;
-  qrCode=false;
   showAddMachine=false;
   exceltoJson = {};
   deviceform: FormGroup;
@@ -57,6 +56,9 @@ export class MachineComponent implements OnInit {
   deviceModel;
   date = new Date()
   deviceid: any;
+  qrData: any;
+  machineNo: String;
+  qrCode=false;
   check: any;
   up: any;
   downloadFile: any;
@@ -78,8 +80,7 @@ export class MachineComponent implements OnInit {
   disableDelete=false;
   devicetypeValue: string;
   status: any;
-  qrData: any;
-  machineNo: String;
+  noSpacePattern="^(?=.*[0-9])(?=.*[A-Z])([A-Z0-9]+)$";
   // http: any;
   // fileformat: any;
   // fileContent: any;
@@ -119,12 +120,16 @@ export class MachineComponent implements OnInit {
       deviceModel: ['', Validators.required],
       variant: ['', Validators.required],
       engineNumber: ['', Validators.required],
-      pinno: ['', Validators.required],
-      batterylotno: ['', Validators.required],
+      pinno: ['',[Validators.required,Validators.pattern(this.noSpacePattern)]],
+      batterylotno: ['',[Validators.required,Validators.pattern(this.noSpacePattern)]],
       manufacturingDate: ['', Validators.required],
       // deliveryDate: ['', Validators.required],
      //  shipmentDate: ['', Validators.required],
-      batteryInstallationDate: ['', Validators.required]
+      batteryInstallationDate: ['', Validators.required],
+      createdDate:[''],
+      createdBy:[''],
+      updatedBy:[''],
+      updatedAt:['']
     });
 
     this.deviceform = this.formBuilder.group({
@@ -237,7 +242,7 @@ export class MachineComponent implements OnInit {
 
   uploadFile() {
     
-
+debugger
 
     const formData: any = new FormData();
     const files: Array<File> = this.filesToUpload;
@@ -250,9 +255,7 @@ export class MachineComponent implements OnInit {
     console.log(files[0]);
   
     if (this.currentFile && this.sheetNameCount == 1 && this.sheet_name == "machinemaster") {
-      //this.readFile();
-
-      this.http.post('http://103.149.113.100:8035/masters/data/upload/machinemaster', formData).subscribe(
+      this.accountService.uploadMachineData(formData).subscribe(
         files => {
           console.log('files', files);
           this.alertService.success('File uploaded successfully', { keepAfterRouteChange: true });
@@ -454,7 +457,9 @@ deleteMachine(id: string) {
   // }
 
   createMachine() {
-
+    var createdAt=new Date();
+    this.form.value.createdDate=this.datePipe.transform(createdAt,'dd-MM-yyyy h:mm:ss');
+   this.form.controls['createdBy'].setValue(JSON.parse(localStorage.getItem('user')).loginName);
     this.accountService.newMC(this.form.value)
       .subscribe((res) => {
         console.log(res);
@@ -543,7 +548,9 @@ deleteMachine(id: string) {
 
 
   updateMachine1(id) {
-    
+    var updatedDate=new Date();
+    this.form.value.updatedAt=this.datePipe.transform(updatedDate,'dd-MM-yyyy h:mm:ss');
+    this.form.controls['updatedBy'].setValue(JSON.parse(localStorage.getItem('user')).loginName);
     this.accountService.updateMachine(id, this.form.value)
 
       .subscribe(res => {
@@ -632,8 +639,10 @@ deleteMachine(id: string) {
     this.qrCode = true;
     var mngDate = new Date(mngDate);
     var mgDate = mngDate.getDate()+'-'+(1+mngDate.getMonth())+'-'+mngDate.getFullYear();
+    // var mgDate = mngDate.getDate()+'-'+mngDate.getMonth()+'-'+mngDate.getFullYear();
     this.qrData = model+', '+pinNo+', '+engineNumber+', '+mgDate;
     this.machineNo = pinNo;
   }
+
 
 }

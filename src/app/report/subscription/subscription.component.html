@@ -52,20 +52,20 @@
         <tr>
         
             <th rowspan="2">#</th>
-            <th rowspan="2">Model</th>
-            <th rowspan="2">Pin No.</th>
-            <th rowspan="2">Total Hrs</th>
-            <th  rowspan="2">Mapping Date</th>
-            <th rowspan="2">Comm. Date</th>
-            <th rowspan="2">Bootstrap Days</th>
-            <th colspan="3">Subscription</th>
-            <th colspan="3">Customer</th>
-            <th colspan="2">Dealer</th>
+            <th rowspan="2" style="width: 6%;">Model</th>
+            <th rowspan="2" style="width: 10%;">Pin No.</th>
+            <th rowspan="2" style="width: 6%;">Total Hrs</th>
+            <th  rowspan="2" style="width: 6%;">Mapping Date</th>
+            <th rowspan="2" style="width: 6%;">Comm. Date</th>
+            <th rowspan="2" style="width: 6%;">Bootstrap Days</th>
+            <th colspan="3" style="text-align: center;">Subscription</th>
+            <th colspan="3" style="text-align: center;">Customer</th>
+            <th colspan="2" style="text-align: center;">Dealer</th>
             <th rowspan="2">Renew</th>
             <th rowspan="2">Notify</th>
         </tr>
         <tr>
-            <th>Expiring(Days)</th>
+            <th>Expiring (Days)</th>
             <th>Expiry Date</th>
             <th>Duration</th>
             <th>Name</th>
@@ -79,18 +79,18 @@
 
         <tr *ngFor="let s of subscriptionList | filter:searchText | paginate : {itemsPerPage : 50, currentPage : p} let i = index">
             <td>{{ i+1 }}</td>
-            <td>{{ s.deviceModel }}</td>
-            <td>{{ s.pinno }}</td>
-            <td>{{ s.totalEngineHours }}</td>
-            <td>
+            <td style="width: 6%;">{{ s.deviceModel }}</td>
+            <td style="width: 10%;">{{ s.pinno }}</td>
+            <td style="width: 6%;">{{ s.totalEngineHours }}</td>
+            <td style="width: 6%;">
                 {{s.MappingDate| slice:8:10}}-{{s.MappingDate| slice:5:7}}-{{s.MappingDate| slice:0:4}} 
              </td>
-            <td>
+            <td style="width: 6%;">
                 {{s.commisionDate | slice:8:10}}-{{s.commisionDate| slice:5:7}}-{{s.commisionDate| slice:0:4}} 
                 <!-- <br>
                 {{s.commisionDate | date:'h:mm:ss a':'+0000'}} -->
             </td>
-            <td>{{ s.BootstrapDays }}</td>
+            <td style="width: 6%;">{{ s.BootstrapDays }}</td>
             <td>{{ s.ExpiringDays }}</td>
             <td>
                 {{s.ExpireDate | slice:8:10}}-{{s.ExpireDate| slice:5:7}}-{{s.ExpireDate| slice:0:4}} 

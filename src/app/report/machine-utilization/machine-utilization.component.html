@@ -108,14 +108,10 @@
     <div class="col-md-6">
         <form class="form-inline" [formGroup]="form" (ngSubmit)="onSubmit()" style="float: right;">
           <label class="mob-footer-hide">From</label> &nbsp;
-          <input type="date" class="form-control m-w-35" [ngModel]="startDate | date:'yyyy-MM-dd'" max="{{startDate}}"
-            formControlName="startDate" style="padding: 0px 10px; margin-right: 15px;">
+          <input type="date" class="form-control m-w-35" [ngModel]="startDate | date:'yyyy-MM-dd'" max="{{endDate}}" formControlName="startDate" style="padding: 0px 10px; margin-right: 15px;">
           <label>To</label> &nbsp;
-          <input type="date" class="form-control m-w-35" [ngModel]="endDate | date:'yyyy-MM-dd'" min="{{endDate}}"
-            formControlName="endDate" placeholder="Tosasasasas" style="padding: 0px 10px; margin-right: 10px;">
-          <button class="btn btn-primary" type="button" type="submit"
-            style="padding: 6px 7px; float: right; border: none;">GO!</button>
-    
+          <input type="date" class="form-control m-w-35" [ngModel]="endDate | date:'yyyy-MM-dd'"  max="{{endDate}}" formControlName="endDate" placeholder="Tosasasasas" style="padding: 0px 10px; margin-right: 10px;">
+          <button class="btn btn-primary" type="button" type="submit" style="padding: 6px 7px; float: right; border: none;">GO!</button>
         </form>
       </div>
     <!-- <div class="col-md-3 offset-md-4">
@@ -126,14 +122,13 @@
       </div> -->
 </div>
 
-
 <div class="tableFixHead">   
 <table class="table table-striped table-bordered table-hover" style="margin-top: 10px;">
     <thead class="thead-dark" style="position: sticky;">
         <tr>
         
             <th rowspan="2">#</th>
-            <th rowspan="2">Pinno</th>
+            <th rowspan="2" style="width: 15%;">Pinno</th>
             <th rowspan="2">Total days</th>
             <th colspan="2">Engine Hours</th>
             <th colspan="2">No of Batches</th>
@@ -156,7 +151,7 @@
       
         <tr  *ngFor="let item of mutilizationdatadocs  | filter:searchText | paginate : {itemsPerPage : 50, currentPage : p} let i = index ">
             <td>{{ i+1 }}</td>
-            <td>{{item.pinno}}</td>
+            <td style="width: 15%;">{{item.pinno}}</td>
             <td>{{item.totalDays}}</td>
             <td>{{item.idealEngineHours}}</td>
             <td>{{item.actualEngineHours}}</td>
@@ -178,13 +173,10 @@
 </table>
 </div>
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2"></div>
 
-
-    </div>
-    <div class="col-md-4">
-
-    </div>
+    <div class="col-md-4"></div>
+    
     <div class="col-md-6">
         <div class="input-group-icon input-group-icon-left mr-3">
             <pagination-controls (pageChange)="p = $event"></pagination-controls>

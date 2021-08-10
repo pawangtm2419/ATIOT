@@ -53,6 +53,13 @@ export class ReportComponent implements OnInit {
   customerlist: any;
   isInvalid=true;
   status: any;
+  notification: any;
+  dealerData: any;
+  customerStatus: any;
+  customerCode: any;
+  customerName: any;
+  customerNameArray: any;
+  customerData: any;
   
   get f1() { return this.Customerform.controls }
 
@@ -125,16 +132,16 @@ export class ReportComponent implements OnInit {
     // }
 
   }
-  mapCheck(dealerID, pinNo, id) {
-    
+  mapCheck(dealerData) {
+    debugger
   //  this.Customerform.reset();
-    if (dealerID) {
-      this.dealerCode = dealerID;
-      this.pinNumber = pinNo;
-      this.id = id;
+    if (dealerData) {
+      this.dealerData = dealerData;
+      this.pinNumber = dealerData.pinno;
+     // this.id = id;
       this.Customerform.controls["vehicleNo"].setValue(this.pinNumber);
      // this.Customerform.value.vehicleNo= this.pinNumber;
-      this.accountService.getCustomerListById(this.dealerCode)
+      this.accountService.getCustomerListById(this.dealerData.dealerCode)
       .pipe(first())
       .subscribe(result => {
         
@@ -147,27 +154,35 @@ export class ReportComponent implements OnInit {
     }
   }
 
+  selectedCustomer(temp) {
+    console.log(temp)
+   this.customerData=JSON.parse(temp);
+  }
+
   updateCustomerMapping(){
     debugger
-   let customer = [];
-   customer =this.Customerform.value.customerID.split(" ");
-    let selectedCustomer = customer[customer.length - 1];
-    //this.Customerform.value.vehicleNo.se
     let subscription = [];
     subscription = this.Customerform.value.subscriptionMonths.split(" ");
     let selectedmonth = subscription[0];
     const data1 = {
-      customerCode:selectedCustomer,
+      customerCode:this.customerData.loginName,
       pinno:this.Customerform.value.vehicleNo,
       subscriptionMonths: selectedmonth
     }
     this.accountService.assignCustomer(data1)
       .subscribe(res => {
         console.log(res);
+        this.customerStatus=res;
         this.alertService.success('Customer assigned Sucessfully', { keepAfterRouteChange: true });
+        this.clearAlert();
          this.closeButton.nativeElement.click();
+         if(this.customerStatus.status == "Customer assigned successfully")
+         {
+           this.sendNotification();
+         }
          this.onSubmit();
          //this.Customerform.reset();
+
       },
         error => {
           this.alertService.error(error);
@@ -177,6 +192,32 @@ export class ReportComponent implements OnInit {
     console.log("saving device data");
   }
 
+  sendNotification(){
+  debugger
+      let params={
+       "machineno":this.pinNumber,
+       "title": "Customer Assignment",
+       "pinno": this.pinNumber,
+       "message": "Dear"+ " " + this.customerData.firstName + " " + this.customerData.lastName +" "+ "Welcome to family of AJAX Smart Fleet. Your access for IOT Application has been created. Pls contact AJAX administrator to get your login credentials. AUGTRN",
+       "deviceID":this.dealerData.deviceID,
+       "mobileno":this.customerData.phone,
+       "companyID":"AJAXFIORI",
+       "deviceModel":this.dealerData.deviceModel,
+       "type":this.dealerData.type,
+       "status": 0,
+       "for":"Customer Assignment"
+      }
+      
+this.accountService.createNotification(params).subscribe((data) => {
+ this.notification = data;
+ if(this.notification.status == "success")
+ {
+   this.alertService.success("Notification send successfully");
+   this.clearAlert();
+ }
+   })
+ 
+  }
   getStageInfo()
    {
      
@@ -191,7 +232,7 @@ export class ReportComponent implements OnInit {
           ele.stage = "3.Dealer Assigned"
           return false;
         }
-        else if(ele.deviceID && ele.type=="dvmap" && !ele.dealerCode) {
+        else if(ele.deviceID && ele.type && !ele.dealerCode) {
           ele.stage = "2.Machine Mapped"
           return false;
         }
@@ -259,6 +300,11 @@ export class ReportComponent implements OnInit {
       }
  
     })
+  }
+  clearAlert() {
+    setTimeout(() => {
+      this.alertService.clear();
+    }, 2000);
   }
 
 } 

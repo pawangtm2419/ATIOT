@@ -468,7 +468,18 @@ export class AccountService {
                 return x;
             }));
     }
-
+    uploadMachineData(formData) {
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json','companyID': environment.companyID });
+        const httpOptions = { headers: headers_object};
+        const URL = 'http://103.149.113.100:8035/masters/data/upload/machinemaster';
+        return this.http.post(URL, formData);
+    }
+    uploadDeviceData(formData) {
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json','companyID': environment.companyID });
+        const httpOptions = { headers: headers_object};
+        const URL = 'http://103.149.113.100:8035/masters/data/upload/devicemaster';
+        return this.http.post(URL, formData);
+    }
 
     update(id, params) {
        //Update user details
@@ -852,12 +863,35 @@ getBreakdownStatisticsCount(data) {
         return this.http.post(`${environment.apiUrl}/reports/vehicle/vehiclereport`, data, httpOptions);
     }
     // QA Testing
-    getReportQATestData(data) {
+    // getReportQATestData(data) {
+    //     //Get Report QA test data
+    //     var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+    //     const httpOptions = { headers: headers_object };
+    //     return this.http.post(`${environment.apiUrl}/reports/qatest/dataliveforDevice`, data, httpOptions);
+    // }
+    
+    getReportQATestMappedData(data) {
         //Get Report QA test data
         var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
         const httpOptions = { headers: headers_object };
         return this.http.post(`${environment.apiUrl}/reports/qatest/dataliveforDevice`, data, httpOptions);
     }
+
+     
+      getReportQATestUnmappedData() {
+        //Get Report QA test Unmapped data
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+        const httpOptions = { headers: headers_object };
+        return this.http.get(`${environment.apiUrl}/reports/qatest/unmappedDevice`, httpOptions);
+    }
+  getReportQATestUnmappedRawData(data) {
+        //Get Report QA test Unmapped Raw data
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+        const httpOptions = { headers: headers_object };
+        return this.http.post(`${environment.apiUrl}/reports/qatest/unmappedDevicerawData`, data, httpOptions);
+    }
+
+
     getQATestMachineData(data) {
         //Get QA data
         var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
@@ -1046,9 +1080,16 @@ getBreakdownStatisticsCount(data) {
         const httpOptions = { headers: headers_object };
         return this.http.get(`${environment.apiUrl}/masters/poi`, httpOptions);
     }
-    getServiceNotification(data) {
+    // getServiceNotification(data) {
+    //     var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+    //     const httpOptions = { headers: headers_object };
+    //     return this.http.post(`${environment.apiUrl}/notifications/create`, data, httpOptions);
+    // }
+    createNotification(data) {
+        // Insert into notificationjob collection (send sms) 
         var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
         const httpOptions = { headers: headers_object };
+        //console.log(data)
         return this.http.post(`${environment.apiUrl}/notifications/create`, data, httpOptions);
     }
     addLocation(data) {
@@ -1077,6 +1118,57 @@ getBreakdownStatisticsCount(data) {
 	getLocationInfo(appURL) {
         //get the  location by openstreetmap
         return this.http.get(appURL);
+      }
+      forgotPassword(data){
+         
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'companyID': environment.companyID });
+        const httpOptions = { headers: headers_object };
+        return this.http.post(`${environment.apiUrl}/users/forgotPassword`,data, httpOptions);
+   }
+   getEmailIDToken(id: string,token) 
+   {
+       //Get email id token
+       var headers_object = new HttpHeaders({ 'Content-Type': 'application/json','companyID': environment.companyID});
+       const httpOptions = { headers: headers_object };
+       return this.http.get(`${environment.apiUrl}/users/getEmailIdTokenAndIdData/${id}/${token}`, httpOptions);
+   }
+   resetPassword(data,data1){
+       var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'companyID': environment.companyID,'_id':data1._id,'token':data1.token});
+       const httpOptions = { headers: headers_object };
+       return this.http.post(`${environment.apiUrl}/users/resetPassword`,data, httpOptions);
+   }
+   updateEngHours(data) 
+    {
+        //Get live vehicle track report data
+        console.log('Token', JSON.parse(localStorage.getItem('user')).token);
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+        const httpOptions = { headers: headers_object };
+        return this.http.post(`${environment.apiUrl}/items/updateItemData`, data, httpOptions);
+    }
+    
+    createOnDemandService(data) 
+    {
+        //Get live vehicle track report data
+        console.log('Token', JSON.parse(localStorage.getItem('user')).token);
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+        const httpOptions = { headers: headers_object };
+        return this.http.post(`${environment.apiUrl}/services/machines/OndemandService`, data, httpOptions);
+    }
+    getAllRoles() {
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+        const httpOptions = { headers: headers_object };
+        return this.http.get(`${environment.apiUrl}/roles`, httpOptions);
+      }
+      getRoleByCode(data) {     
+         //Get role details by roleID
+         var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+         const httpOptions = { headers: headers_object };
+         return this.http.post(`${environment.apiUrl}/roles/getRoleByCode`,data, httpOptions);  
+         }
+      updateRoleByCode(id, data) {
+        var headers_object = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': "Bearer " + JSON.parse(localStorage.getItem('user')).token, 'companyID': environment.companyID });
+        const httpOptions = { headers: headers_object };
+        return this.http.put(`${environment.apiUrl}/roles/update/${id}`, data ,httpOptions);
       }
 }
 
